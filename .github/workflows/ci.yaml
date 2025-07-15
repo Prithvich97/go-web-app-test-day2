@@ -34,22 +34,22 @@ jobs:
   
   code-quality:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Go 1.22.5
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.22.5
+      - name: Set up Go 1.22.5
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.22.5
 
-    - name: Run golangci-lint
-      uses: golangci/golangci-lint-action@v6
-      with:
-        version: v1.59.0
-      env:
-        GOTOOLCHAIN: go
+      - name: Install golangci-lint v1.60.0
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.60.0
+
+      - name: Run golangci-lint
+        run: |
+          $(go env GOPATH)/bin/golangci-lint run
     
   push:
     runs-on: ubuntu-latest
