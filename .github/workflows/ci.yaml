@@ -32,17 +32,22 @@ jobs:
     - name: Test
       run: go test ./...
   
-  code-quality:
-    runs-on: ubuntu-latest
+code-quality:
+  runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+  steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
 
-    - name: Run golangci-lint
-      uses: golangci/golangci-lint-action@v6
-      with:
-        version: v1.59.1
+  - name: Install golangci-lint manually
+    run: |
+      curl -sSfL https://github.com/golangci/golangci-lint/releases/download/v1.59.1/golangci-lint-1.59.1-linux-amd64.tar.gz -o golangci-lint.tar.gz
+      tar -xzf golangci-lint.tar.gz
+      sudo mv golangci-lint-1.59.1-linux-amd64/golangci-lint /usr/local/bin/
+
+  - name: Run golangci-lint
+    run: golangci-lint run
+
     
   push:
     runs-on: ubuntu-latest
