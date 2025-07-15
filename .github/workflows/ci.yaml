@@ -41,8 +41,10 @@ jobs:
 
     - name: Run golangci-lint
       uses: golangci/golangci-lint-action@v6
+      env:
+          GOTOOLCHAIN: go  
       with:
-        version: v1.59.0
+          version: v1.59.0
   
   push:
     runs-on: ubuntu-latest
