@@ -126,4 +126,57 @@ helm uninstall go-web-app
 
 now we will build CI, stage 1 will be creating , build and unit testing , step-2 will be static code analysis , stage-3  creatin of docker image and push it 
 step-4 update helm with docker image crated, 
-stage 5---CD, will use argo cd to pull helm chat onto the k8 cluster   
+stage 5---CD, will use argo cd to pull helm chat onto the k8 cluster 
+
+
+check out the ci.yaml file it has all  the steps and code, after that ci.yaml have been completed
+
+mkdir  .github/workflows
+
+cretae ci.yaml
+git add .
+
+git commit -m "updated version of go-lint, manual go lint instal all bugs fixed-1"
+
+git push 
+
+
+now check workflow on git hub , also undersatnd how ci.yaml is picking up thing from helm/go-web-chart/values.yaml
+
+
+
+#step-10
+
+exit helm directory and back to go-web-app directory
+
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+
+now need to expose argocd, so that we can use the interface 
+
+kubectl patch svc argocd-server -n argocd -p '{\"spec\": {\"type\": \"LoadBalancer\"}}'
+
+kubectl get svc argocd-server -n argocd
+
+  will have output , copy the extrnal ip  and open in browser , or do kubectl get nodes -o wide , take adress: port (port from kubectl get svc argocd-server -n argocd )
+
+
+  now this will open argo cd interface 
+  user :admin 
+  password : kubectl get secrets -n argocd->argocd-initial-admin-secret-> open this and get the pwrd 
+  kubectl edit secret argocd-initial-admin-secret -n argocd
+
+         the pswrd wil be encoded so run ,
+
+         echo pswrd | base64 --deocde   --for linux
+         [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("pswrd"))  -- for windows
+ sonow basically argocd is on the same cluster 
+ in argo cd click on +new app, check video for the instruction 
+
+ now iu can open go-web-app.local/courses, it is accesible 
+
+
+ #step-11 
+ now lets verify if ci/cd pipeline is working 
+ update the static contect 
