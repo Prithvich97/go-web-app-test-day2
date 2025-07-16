@@ -1,3 +1,17 @@
+initially we start with containerizing our application , by creating a docker file 
+ than we will craete kuberntes manifest-> deployment, services and ingress
+
+
+WILBE RUNNING OUR APPLUCATION ON PORT 8080,
+
+SO BEFORE CONTAINERIZING WE WILL TRY TO RUN OUR APPLICATION LOCALLY 
+
+#####
+before running we need to build the application
+
+-> go build -o main 
+
+
 #step -1 
 aws configure 
 aws sts get-caller-identity

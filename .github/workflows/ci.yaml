@@ -3,6 +3,7 @@
 name: CI/CD
 
 # Exclude the workflow to run on changes to the helm chart
+# creating trigger 
 on:
   push:
     branches:
@@ -16,11 +17,11 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-
+#checkout the source code 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-
+#install go lang
     - name: Set up Go 1.22.5
       uses: actions/setup-go@v2
       with:
@@ -28,10 +29,10 @@ jobs:
 
     - name: Build
       run: go build -o go-web-app
-
+# and test the unit test cases 
     - name: Test
       run: go test ./...
-  
+  #now we will do static code analysis
   code-quality:
       runs-on: ubuntu-latest
       steps:
@@ -99,5 +100,4 @@ jobs:
 
 
       
-
 
